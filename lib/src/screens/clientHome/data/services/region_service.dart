@@ -139,8 +139,6 @@ class RegionService {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     final String? token = preferences.getString('token');
     final String regionUrl = '${Constants.baseUrl}/collector/debt-list?region_id=$id&per_page=$limit&page=$page&search=$search';
-    print(regionUrl);
-    print(token);
 
     try {
       final headers = {
@@ -154,8 +152,6 @@ class RegionService {
           headers: headers,
         ),
       );
-      print(response.data);
-      print(response.statusCode);
       if (response.statusCode == 200) {
         clientHomeController.loading.value = 3;
         final List<dynamic> data = response.data['data'];

@@ -174,7 +174,8 @@ class _CustomTextFildMINEState extends State<CustomTextFildMINE> {
               maxLines: 1,
               keyboardType: TextInputType.text,
               decoration: const InputDecoration(
-                contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: -2),
+                isDense: true,
+                contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,
                 enabledBorder: InputBorder.none,
@@ -205,7 +206,8 @@ class _CustomTextFildMINEState extends State<CustomTextFildMINE> {
               maxLines: 1,
               keyboardType: TextInputType.text,
               decoration: const InputDecoration(
-                contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: -2),
+                isDense: true,
+                contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,
                 enabledBorder: InputBorder.none,
@@ -235,14 +237,14 @@ class _CustomTextFildMINEState extends State<CustomTextFildMINE> {
                 borderRadius: BorderRadius.circular(10),
               ),
               alignment: Alignment.center,
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
               child: const Text(
                 'Töle',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: AppColors.whiteColor,
                   fontFamily: 'Roboto',
-                  fontSize: 20,
+                  fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
               ),

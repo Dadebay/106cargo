@@ -35,8 +35,6 @@ class LoginRepository with ChangeNotifier {
         ),
       );
 
-      print(response.data);
-      print(response.statusCode);
       notifyListeners();
 
       if (response.statusCode == 200) {

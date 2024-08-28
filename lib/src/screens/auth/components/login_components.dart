@@ -141,21 +141,18 @@ class _LoginComponentsState extends State<LoginComponents> {
                                   width: 1,
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 5),
-                                child: SizedBox(
-                                  width: MediaQuery.of(context).size.width / 1.8,
-                                  child: TextFormField(
-                                    controller: phoneController,
-                                    maxLines: 1,
-                                    keyboardType: TextInputType.phone,
-                                    decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      focusedBorder: InputBorder.none,
-                                      enabledBorder: InputBorder.none,
-                                      errorBorder: InputBorder.none,
-                                      disabledBorder: InputBorder.none,
-                                    ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 1.8,
+                                child: TextFormField(
+                                  controller: phoneController,
+                                  maxLines: 1,
+                                  keyboardType: TextInputType.phone,
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                    enabledBorder: InputBorder.none,
+                                    errorBorder: InputBorder.none,
+                                    disabledBorder: InputBorder.none,
                                   ),
                                 ),
                               ),
@@ -334,15 +331,12 @@ class _LoginComponentsState extends State<LoginComponents> {
                                 });
                               }
                               if (passwordController.text.isNotEmpty && phoneController.text.isNotEmpty) {
-                                print('Asdasdassda');
                                 context.read<LoginRepository>().login(
                                       context,
                                       phoneController.text,
                                       passwordController.text,
                                     );
-                              } else {
-                                print('121321321321');
-                              }
+                              } else {}
                             },
                             child: Padding(
                               padding: const EdgeInsets.only(

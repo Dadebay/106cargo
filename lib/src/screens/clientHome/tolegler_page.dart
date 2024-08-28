@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconly/iconly.dart';
@@ -9,14 +10,14 @@ import 'package:kargo_app/src/screens/clientHome/data/services/getOneOrder_servi
 import 'package:kargo_app/src/screens/custom_widgets/widgets.dart';
 
 class Tolegler extends StatelessWidget {
-  Tolegler({required this.totalDebt, super.key});
-  final String totalDebt;
   TextEditingController seneController = TextEditingController();
   TextEditingController seneController1 = TextEditingController();
   TextEditingController ulagController = TextEditingController();
   TextEditingController ulagController1 = TextEditingController();
   TextEditingController idController = TextEditingController();
   final ClientHomeController clientHomeController = Get.put(ClientHomeController());
+
+  Tolegler({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -321,14 +322,16 @@ class Tolegler extends StatelessWidget {
     );
 
     if (selectedDate == null) return null;
+    final DateFormat formatter = DateFormat('dd.MM.yyyy');
+    final String formatted = formatter.format(selectedDate);
 
-    print(selectedDate);
-
-    controller.text = selectedDate.toString().substring(0, 10);
+    controller.text = formatted.toString().substring(0, 10);
     return selectedDate;
   }
 
   Container topCard(BuildContext context) {
+    final DateFormat formatter = DateFormat('dd.MM.yyyy');
+    final String formatted = formatter.format(DateTime.now()).toString().substring(0, 10);
     return Container(
       margin: const EdgeInsets.all(20),
       padding: const EdgeInsets.all(20),
@@ -393,7 +396,7 @@ class Tolegler extends StatelessWidget {
                     });
                   },
                   showOnTap: true,
-                  hint: DateTime.now().toString().substring(0, 10),
+                  hint: formatted,
                   text: 'Sene',
                   controller: seneController,
                 ),
@@ -411,7 +414,7 @@ class Tolegler extends StatelessWidget {
                     });
                   },
                   showOnTap: true,
-                  hint: DateTime.now().toString().substring(0, 10),
+                  hint: formatted,
                   text: 'Sene',
                   controller: seneController1,
                 ),

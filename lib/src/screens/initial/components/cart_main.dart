@@ -114,7 +114,6 @@ class _CartMainState extends State<CartMain> {
                   showPayOneCargo(context, widget.model.summaryPrice.toString(), widget.model.id.toString());
                 },
                 child: Container(
-                  height: 36,
                   margin: const EdgeInsets.only(right: 10),
                   decoration: BoxDecoration(
                     color: AppColors.blueColor,
@@ -135,6 +134,7 @@ class _CartMainState extends State<CartMain> {
                 ),
               ),
               CustomButton(
+                mini: true,
                 backColor: Colors.white,
                 textColor: AppColors.blueColor,
                 onTap: () {
@@ -272,7 +272,7 @@ class _CartMainState extends State<CartMain> {
                           ),
                           child: Container(
                             height: 2.5,
-                            width: MediaQuery.of(context).size.width / 9.3,
+                            width: MediaQuery.of(context).size.width / 10,
                             color: index <= t && t >= 0 ? AppColors.mainColor : Colors.grey,
                           ),
                         ),
@@ -438,6 +438,7 @@ class _CartMainState extends State<CartMain> {
           children: [
             Text(
               widget.model.date,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: AppColors.authTextColor,
                 fontSize: MediaQuery.of(context).size.width / 29,
@@ -450,7 +451,8 @@ class _CartMainState extends State<CartMain> {
               width: deviceWidth / 5.9,
               child: Text(
                 widget.model.pointFrom,
-                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: MediaQuery.of(context).size.width / 26,
@@ -479,6 +481,7 @@ class _CartMainState extends State<CartMain> {
         ),
         Text(
           widget.model.pointTo,
+          maxLines: 1,
           textAlign: TextAlign.right,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(

@@ -98,11 +98,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
         clientHomeController.showOrderIDList.addAll(list);
         final User user = snapshot.data![1];
 
-        return selectedIndex == 0
-            ? pagee(user)
-            : Tolegler(
-                totalDebt: user.totalDebt!,
-              );
+        return selectedIndex == 0 ? pagee(user) : Tolegler();
       },
     );
   }

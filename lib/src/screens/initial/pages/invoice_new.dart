@@ -218,7 +218,6 @@ class _InvoiceNewState extends State<InvoiceNew> {
   }
 
   Widget fifthTextField(InvoiceProvider invoice) {
-    print(invoice.invoice!.expenses.length);
     return ListView.builder(
       padding: const EdgeInsets.all(18.0),
       shrinkWrap: true,

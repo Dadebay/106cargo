@@ -109,7 +109,7 @@ class _ClientIdCardState extends State<ClientIdCard> {
       itemCount: widget.user.tickets!.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
-        childAspectRatio: 4 / 1.2,
+        childAspectRatio: 4 / 1.4,
         mainAxisSpacing: 5,
         crossAxisSpacing: 5,
       ),
@@ -118,22 +118,16 @@ class _ClientIdCardState extends State<ClientIdCard> {
           final int indexMine = int.parse(widget.user.tickets![index].id.toString());
           if (selectedIndices.contains(indexMine)) {
             selectedIndices.remove(indexMine);
-            clientHomeController.showOrderIDList.clear();
-            await GetOneOrderService().fetchOneOrder(userId: clientHomeController.userId.value, ticketID: selectedIndices).then((a) {
-              final List<Datum> list = a;
-              clientHomeController.showOrderIDList.addAll(list);
-            });
-            setState(() {});
           } else {
             selectedIndices.add(indexMine);
-            clientHomeController.showOrderIDList.clear();
             tickedIDMine = widget.user.tickets![index].id.toString();
-            await GetOneOrderService().fetchOneOrder(userId: clientHomeController.userId.value, ticketID: selectedIndices).then((a) {
-              final List<Datum> list = a;
-              clientHomeController.showOrderIDList.addAll(list);
-            });
-            setState(() {});
           }
+          clientHomeController.showOrderIDList.clear();
+          GetOneOrderService().fetchOneOrder(userId: clientHomeController.userId.value, ticketID: selectedIndices).then((a) {
+            final List<Datum> list = a;
+            clientHomeController.showOrderIDList.addAll(list);
+          });
+          setState(() {});
         },
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 8),

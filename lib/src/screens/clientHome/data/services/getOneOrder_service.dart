@@ -81,7 +81,6 @@ class GetOneOrderService {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     final String? token = preferences.getString('token');
     final String oneOrderUrl = '${Constants.baseUrl}/collector/fetch-user-debt/$userId?ticket_id=$ticketID&from_transport_id=$controller&to_transport_id=$controller1&per_page=50&page=1';
-    print(oneOrderUrl);
 
     try {
       final headers = {'User-Agent': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer $token'};
@@ -130,7 +129,6 @@ class GetOneOrderService {
           headers: headers,
         ),
       );
-      print(response.data);
 
       clientHomeController.paymentHistory.clear();
       if (response.statusCode == 200) {
@@ -155,7 +153,7 @@ class GetOneOrderService {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     final String? token = preferences.getString('token');
     final String oneOrderUrl = '${Constants.baseUrl}/collector/get-payment-history?date_from=$dateFrom&date_to=$dateTo';
-
+    print(oneOrderUrl);
     try {
       final headers = {'User-Agent': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer $token'};
 
@@ -166,7 +164,6 @@ class GetOneOrderService {
         ),
       );
       print(response.data);
-
       clientHomeController.paymentHistory.clear();
       if (response.statusCode == 200) {
         clientHomeController.sumPaid.value = response.data['sum_paid'];
@@ -198,9 +195,9 @@ class GetOneOrderService {
         ),
       );
       clientHomeController.paymentHistory.clear();
-      print(response.data);
+      log(response.data.toString());
       if (response.statusCode == 200) {
-        clientHomeController.sumPaid.value = response.data['sum_paid'];
+        clientHomeController.sumPaid.value = response.data['sum_paid'].toString();
         for (var e in response.data['data'].map((e) => PaymentModel.fromJson(e as Map<String, dynamic>)).toList()) {
           clientHomeController.paymentHistory.add(e);
         }

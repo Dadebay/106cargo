@@ -4,12 +4,14 @@ import 'package:kargo_app/src/design/app_colors.dart';
 
 class CustomButton extends StatelessWidget {
   final bool? withIcon;
+  final bool? mini;
   final Color? backColor;
   final Color? textColor;
   final VoidCallback? onTap;
   const CustomButton({
     Key? key,
     this.withIcon = false,
+    this.mini = false,
     this.backColor,
     this.textColor,
     this.onTap,
@@ -20,7 +22,7 @@ class CustomButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 36,
+        height: mini == true ? null : 36,
         decoration: BoxDecoration(
           color: backColor ?? AppColors.blueColor,
           borderRadius: BorderRadius.circular(10),
@@ -55,10 +57,12 @@ class CustomButton extends StatelessWidget {
             : Text(
                 'Doly maglumat',
                 textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: textColor ?? AppColors.whiteColor,
                   fontFamily: 'Roboto',
-                  fontSize: 14,
+                  fontSize: mini == true ? 12 : 14,
                   fontWeight: FontWeight.w500,
                 ),
               ),
