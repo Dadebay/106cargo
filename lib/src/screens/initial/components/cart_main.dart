@@ -1,7 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:get/instance_manager.dart';
 import 'package:kargo_app/src/screens/auth/components/custom_text_fild.dart';
+import 'package:kargo_app/src/screens/clientHome/clientHome_controller.dart';
 import 'package:kargo_app/src/screens/clientHome/components/custom_button.dart';
+import 'package:kargo_app/src/screens/clientHome/data/models/getOneOrder_model.dart';
+import 'package:kargo_app/src/screens/clientHome/data/services/getOneOrder_service.dart';
 import 'package:kargo_app/src/screens/clientHome/data/services/region_service.dart';
 import 'package:kargo_app/src/screens/clientHome/info_order_mine.dart';
 import 'package:kargo_app/src/screens/initial/model/order_by_id_model.dart';
@@ -343,6 +347,8 @@ class _CartMainState extends State<CartMain> {
                             children: [
                               FittedBox(
                                 child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: List.generate(
                                     1,
                                     (ii) => Padding(
@@ -354,10 +360,7 @@ class _CartMainState extends State<CartMain> {
                                       ),
                                       child: Container(
                                         height: 2.5,
-                                        width: MediaQuery.of(
-                                              context,
-                                            ).size.width /
-                                            9,
+                                        width: deviceWidth / 10,
                                         color: index <= t && t >= 0 ? AppColors.mainColor : Colors.grey,
                                       ),
                                     ),
@@ -370,7 +373,7 @@ class _CartMainState extends State<CartMain> {
                         index != t
                             ? Container(
                                 height: deviceWidth / 38,
-                                width: deviceWidth / 38,
+                                width: deviceWidth / 45,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: index <= t && t >= 0 ? AppColors.mainColor : Colors.grey,
@@ -561,6 +564,18 @@ class _CartMainState extends State<CartMain> {
                       onTap: () async {
                         final instance = RegionService();
                         await instance.payOneCargoPOST(id: ID, amount: controller.text);
+                        final ClientHomeController clientHomeController = Get.put(ClientHomeController());
+                        print(clientHomeController.showOrderIDList);
+                        clientHomeController.showOrderIDList.clear();
+
+                        await GetOneOrderService().fetchOneOrderFromFilter(userId: clientHomeController.userId.value.toString(), ticketID: [], controller: '', controller1: '').then((a) {
+                          print(a);
+                          final List<Datum> list = a;
+
+                          clientHomeController.showOrderIDList.addAll(list);
+                        });
+                        print(clientHomeController.showOrderIDList);
+
                         Navigator.pop(context);
                       },
                       child: Container(

@@ -15,32 +15,32 @@ class GetOneOrderService {
   final Dio dio = Dio();
   final ClientHomeController _clientHomeController = Get.put(ClientHomeController());
 
-  Future<List<Datum>> fetchOneOrder({required String userId, required List ticketID}) async {
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    final String? token = preferences.getString('token');
-    final String oneOrderUrl = '${Constants.baseUrl}/collector/fetch-user-debt/$userId?ticket_id=$ticketID&per_page=50&page=1';
-    print(oneOrderUrl);
-    try {
-      final headers = {'User-Agent': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer $token'};
+  // Future<List<Datum>> fetchOneOrder({required String userId, required List ticketID}) async {
+  //   final SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   final String? token = preferences.getString('token');
+  //   final String oneOrderUrl = '${Constants.baseUrl}/collector/fetch-user-debt/$userId?ticket_id=$ticketID&per_page=50&page=1';
+  //   print(oneOrderUrl);
+  //   try {
+  //     final headers = {'User-Agent': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer $token'};
 
-      final response = await dio.get(
-        oneOrderUrl,
-        options: Options(
-          headers: headers,
-        ),
-      );
-      print(response.data);
-      if (response.statusCode == 200) {
-        final List<dynamic> data = response.data['data'];
-        _clientHomeController.totalDebt.value = response.data['user']['total_debt'].toString();
-        return data.map((e) => Datum.fromJson(e)).toList();
-      } else {
-        return [];
-      }
-    } catch (e) {
-      throw Exception('Error fetching order: $e');
-    }
-  }
+  //     final response = await dio.get(
+  //       oneOrderUrl,
+  //       options: Options(
+  //         headers: headers,
+  //       ),
+  //     );
+  //     print(response.data);
+  //     if (response.statusCode == 200) {
+  //       final List<dynamic> data = response.data['data'];
+  //       _clientHomeController.totalDebt.value = response.data['user']['total_debt'].toString();
+  //       return data.map((e) => Datum.fromJson(e)).toList();
+  //     } else {
+  //       return [];
+  //     }
+  //   } catch (e) {
+  //     throw Exception('Error fetching order: $e');
+  //   }
+  // }
 
   Future<bool> deletePayment({required String id}) async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -77,11 +77,13 @@ class GetOneOrderService {
     }
   }
 
-  Future<List<Datum>> fetchOneOrderFromFilter({required String userId, required String ticketID, required String controller, required String controller1}) async {
+  Future<List<Datum>> fetchOneOrderFromFilter({required String userId, required List ticketID, required String controller, required String controller1}) async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     final String? token = preferences.getString('token');
     final String oneOrderUrl = '${Constants.baseUrl}/collector/fetch-user-debt/$userId?ticket_id=$ticketID&from_transport_id=$controller&to_transport_id=$controller1&per_page=50&page=1';
-
+    print(oneOrderUrl);
+    print(token);
+    _clientHomeController.loadingOrders.value = 0;
     try {
       final headers = {'User-Agent': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer $token'};
 
@@ -96,9 +98,12 @@ class GetOneOrderService {
       if (response.statusCode == 200) {
         final List<dynamic> data = response.data['data'];
         _clientHomeController.totalDebt.value = response.data['user']['total_debt'].toString();
+        _clientHomeController.loadingOrders.value = 1;
 
         return data.map((e) => Datum.fromJson(e)).toList();
       } else {
+        _clientHomeController.loadingOrders.value = 2;
+
         return [];
       }
     } catch (e) {
@@ -118,8 +123,8 @@ class GetOneOrderService {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     final String? token = preferences.getString('token');
     final String oneOrderUrl =
-        '${Constants.baseUrl}/collector/get-payment-history?date_from=$dateFrom&date_to=$dateTo&ticket_search=$ticket_search&from_transport_id=$from_transport_id&to_transport_id=$to_transport_id';
-
+        '${Constants.baseUrl}/collector/get-payment-history?date_from=$dateFrom&date_to=$dateTo&ticket_search=$ticket_search&from_transport_id=$from_transport_id&to_transport_id=$to_transport_id&per_page=50&page=1';
+    print(oneOrderUrl);
     try {
       final headers = {'User-Agent': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer $token'};
 
@@ -129,10 +134,10 @@ class GetOneOrderService {
           headers: headers,
         ),
       );
-
+      print(response.data);
       clientHomeController.paymentHistory.clear();
       if (response.statusCode == 200) {
-        clientHomeController.sumPaid.value = response.data['sum_paid'];
+        clientHomeController.sumPaid.value = response.data['sum_paid'].toString();
 
         for (var e in response.data['data'].map((e) => PaymentModel.fromJson(e as Map<String, dynamic>)).toList()) {
           clientHomeController.paymentHistory.add(e);

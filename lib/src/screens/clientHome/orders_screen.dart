@@ -25,7 +25,7 @@ class OrdersScreen extends StatefulWidget {
 }
 
 class _OrdersScreenState extends State<OrdersScreen> {
-  final ClientHomeController clientHomeController = Get.put(ClientHomeController());
+  final ClientHomeController _clientHomeController = Get.put(ClientHomeController());
   int selectedIndex = 0;
 
   @override
@@ -51,9 +51,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
           setState(() {
             selectedIndex = index;
           });
-          if (selectedIndex == 1) {
-            await GetOneOrderService().getPaymentHistory();
-          }
+          await GetOneOrderService().getPaymentHistory();
         },
         items: const [
           BottomNavigationBarItem(
@@ -77,7 +75,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
   FutureBuilder<List<dynamic>> page1(String userId) {
     return FutureBuilder<List<dynamic>>(
       future: Future.wait([
-        GetOneOrderService().fetchOneOrder(userId: userId, ticketID: []),
+        GetOneOrderService().fetchOneOrderFromFilter(
+          userId: userId,
+          ticketID: [],
+          controller: '',
+          controller1: '',
+        ),
         GetOneOrderService().fetchUserData(userId: userId),
       ]),
       builder: (context, snapshot) {
@@ -92,10 +95,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
             child: Text('No data available'),
           );
         }
-        clientHomeController.showOrderIDList.clear();
+        _clientHomeController.showOrderIDList.clear();
         final List<Datum> list = snapshot.data![0];
 
-        clientHomeController.showOrderIDList.addAll(list);
+        _clientHomeController.showOrderIDList.addAll(list);
         final User user = snapshot.data![1];
 
         return selectedIndex == 0 ? pagee(user) : Tolegler();
@@ -113,21 +116,23 @@ class _OrdersScreenState extends State<OrdersScreen> {
           child: ClientIdCard(user: user),
         ),
         Obx(() {
-          if (clientHomeController.showOrderIDList.isEmpty) {
+          if (_clientHomeController.loadingOrders.value == 0) {
+            return loading();
+          } else if (_clientHomeController.showOrderIDList.isEmpty && _clientHomeController.loadingOrders.value == 2) {
             return emptyDataMine();
           } else {
             return ListView.builder(
-              itemCount: clientHomeController.showOrderIDList.length + 1,
+              itemCount: _clientHomeController.showOrderIDList.length + 1,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                if (clientHomeController.showOrderIDList.length == index) {
+                if (_clientHomeController.showOrderIDList.length == index) {
                   return const SizedBox(
                     height: 200,
                     width: double.infinity,
                   );
                 } else {
-                  final Datum a = clientHomeController.showOrderIDList[index];
+                  final Datum a = _clientHomeController.showOrderIDList[index];
                   final List<prefix.Point> points = [];
                   a.points?.forEach((element) {
                     points.add(prefix.Point(point: element.point ?? '', isCurrent: element.isCurrent ?? 0, date: element.date ?? ''));

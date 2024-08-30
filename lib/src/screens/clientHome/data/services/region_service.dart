@@ -32,6 +32,8 @@ class RegionService {
           headers: headers,
         ),
       );
+      print(response.statusCode);
+      print(response.data);
       if (response.statusCode == 200) {
         showSnackBar('Tölendi', 'Tölegiňiz tassyklandy', Colors.green);
         return true;

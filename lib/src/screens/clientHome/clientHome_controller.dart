@@ -3,6 +3,7 @@
 import 'package:get/get.dart';
 import 'package:kargo_app/src/screens/clientHome/data/models/getOneOrder_model.dart' as oneOrder;
 import 'package:kargo_app/src/screens/clientHome/data/models/meRegions_model.dart';
+import 'package:kargo_app/src/screens/clientHome/data/services/getOneOrder_service.dart';
 import 'package:kargo_app/src/screens/clientHome/data/services/meRegions_service.dart';
 import 'package:kargo_app/src/screens/clientHome/data/services/region_service.dart';
 
@@ -14,6 +15,7 @@ class ClientHomeController extends GetxController {
   RxString sumPaid = ''.obs;
   RxString totalDebt = ''.obs;
   RxInt loading = 0.obs;
+  RxInt loadingOrders = 0.obs;
   RxInt page = 0.obs;
   RxInt limit = 10.obs;
   RxList<Point> regionNames = <Point>[].obs;
@@ -50,6 +52,7 @@ class ClientHomeController extends GetxController {
     try {
       fetchedRegions = await MeRegionService().fetchRegionNames();
       regionNames.assignAll(fetchedRegions);
+      await GetOneOrderService().getPaymentHistory();
     } finally {
       if (regionNames.isNotEmpty) {
         locationName.value = regionNames.first.name ?? '';

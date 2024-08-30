@@ -20,9 +20,11 @@ class ClientIdCard extends StatefulWidget {
   State<ClientIdCard> createState() => _ClientIdCardState();
 }
 
-class _ClientIdCardState extends State<ClientIdCard> {
+class _ClientIdCardState extends State<ClientIdCard> with AutomaticKeepAliveClientMixin {
   final ClientHomeController clientHomeController = Get.put(ClientHomeController());
   String tickedIDMine = '';
+  @override
+  bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -123,7 +125,7 @@ class _ClientIdCardState extends State<ClientIdCard> {
             tickedIDMine = widget.user.tickets![index].id.toString();
           }
           clientHomeController.showOrderIDList.clear();
-          GetOneOrderService().fetchOneOrder(userId: clientHomeController.userId.value, ticketID: selectedIndices).then((a) {
+          await GetOneOrderService().fetchOneOrderFromFilter(userId: clientHomeController.userId.value, ticketID: selectedIndices, controller: ' ', controller1: ' ').then((a) {
             final List<Datum> list = a;
             clientHomeController.showOrderIDList.addAll(list);
           });

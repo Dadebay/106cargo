@@ -214,17 +214,18 @@ class Tolegler extends StatelessWidget {
                       onTap: () async {
                         if (statusID == 1) {
                           showSnackBar('Ýalňyşlyk', 'Siz bu tölegi pozup bilmersiňiz', Colors.red);
+                          Navigator.pop(context);
                         } else {
                           await GetOneOrderService().deletePayment(id: ID);
                           await GetOneOrderService().getPaymentMethod(
-                            dateFrom: seneController.text,
-                            dateTo: seneController1.text,
-                            ticket_search: idController.text,
-                            from_transport_id: ulagController.text,
-                            to_transport_id: ulagController1.text,
+                            dateFrom: seneController.text.toString(),
+                            dateTo: seneController1.text.toString(),
+                            ticket_search: idController.text.toString(),
+                            from_transport_id: ulagController.text.toString(),
+                            to_transport_id: ulagController1.text.toString(),
                           );
+                          Navigator.pop(context);
                         }
-                        Navigator.pop(context);
                       },
                       child: Container(
                         height: 40,

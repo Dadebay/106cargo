@@ -3,11 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconly/iconly.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:kargo_app/src/design/app_colors.dart';
 import 'package:kargo_app/src/screens/clientHome/clientHome_controller.dart';
-import 'package:kargo_app/src/screens/clientHome/components/clientInfoCard_slider.dart';
-import 'package:kargo_app/src/screens/clientHome/components/location_slider.dart';
-import 'package:kargo_app/src/screens/clientHome/components/search_textfield.dart';
+import 'package:kargo_app/src/screens/clientHome/data/clients_page.dart';
 import 'package:kargo_app/src/screens/clientHome/data/services/getOneOrder_service.dart';
 import 'package:kargo_app/src/screens/clientHome/tolegler_page.dart';
 import 'package:kargo_app/src/screens/custom_widgets/custom_appbar.dart';
@@ -26,11 +25,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
   void initState() {
     super.initState();
     _clientHomeController.onInit();
-    fetchData();
-  }
-
-  fetchData() async {
-    await GetOneOrderService().getPaymentHistory();
+    initializeDateFormatting();
   }
 
   int selectedIndex = 0;
@@ -42,7 +37,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
       appBar: CustomAppBar(
         title: selectedIndex == 0 ? 'Müşderiler' : 'Tölegler',
       ),
-      body: selectedIndex == 0 ? pagee() : Tolegler(),
+      body: selectedIndex == 0 ? const ClientsPage() : Tolegler(),
       bottomSheet: BottomNavigationBar(
         backgroundColor: Colors.white,
         iconSize: 26,
@@ -58,9 +53,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
           setState(() {
             selectedIndex = index;
           });
-          if (selectedIndex == 1) {
-            await GetOneOrderService().getPaymentHistory();
-          }
+          await GetOneOrderService().getPaymentHistory();
         },
         items: const [
           BottomNavigationBarItem(
@@ -77,23 +70,6 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  Column pagee() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const SearchTextField(),
-        Expanded(
-          flex: 1,
-          child: LocationSlider(),
-        ),
-        const Expanded(
-          flex: 8,
-          child: ClientInfoCardSlider(),
-        ),
-      ],
     );
   }
 }

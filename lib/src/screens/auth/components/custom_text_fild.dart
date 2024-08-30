@@ -151,7 +151,7 @@ class _CustomTextFildMINEState extends State<CustomTextFildMINE> {
   search(value) async {
     if (controller.text.isNotEmpty && controller1.text.isNotEmpty) {
       clientHomeController.showOrderIDList.clear();
-      await GetOneOrderService().fetchOneOrderFromFilter(userId: clientHomeController.userId.value, ticketID: widget.tickedID, controller: controller.text, controller1: controller1.text).then((a) {
+      await GetOneOrderService().fetchOneOrderFromFilter(userId: clientHomeController.userId.value, ticketID: [widget.tickedID], controller: controller.text, controller1: controller1.text).then((a) {
         final List<Datum> list = a;
         clientHomeController.showOrderIDList.addAll(list);
       });
