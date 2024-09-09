@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: "none"
 
-version: 2.1.5+20
+version: 2.1.7+22
 
 environment:
   sdk: ">=2.19.6 <3.0.0"
@@ -41,7 +41,6 @@ dependencies:
   photo_view: ^0.14.0
   flutter_swipe_detector: ^2.0.0
   cached_network_image: ^3.3.1
-  upgrader: 
   firebase_remote_config: ^4.3.17
 
 

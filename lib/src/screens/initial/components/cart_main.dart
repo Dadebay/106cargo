@@ -565,16 +565,13 @@ class _CartMainState extends State<CartMain> {
                         final instance = RegionService();
                         await instance.payOneCargoPOST(id: ID, amount: controller.text);
                         final ClientHomeController clientHomeController = Get.put(ClientHomeController());
-                        print(clientHomeController.showOrderIDList);
                         clientHomeController.showOrderIDList.clear();
 
                         await GetOneOrderService().fetchOneOrderFromFilter(userId: clientHomeController.userId.value.toString(), ticketID: [], controller: '', controller1: '').then((a) {
-                          print(a);
                           final List<Datum> list = a;
 
                           clientHomeController.showOrderIDList.addAll(list);
                         });
-                        print(clientHomeController.showOrderIDList);
 
                         Navigator.pop(context);
                       },

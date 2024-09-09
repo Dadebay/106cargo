@@ -1,7 +1,5 @@
 // ignore_for_file: file_names, non_constant_identifier_names
 
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
@@ -19,7 +17,6 @@ class GetOneOrderService {
   //   final SharedPreferences preferences = await SharedPreferences.getInstance();
   //   final String? token = preferences.getString('token');
   //   final String oneOrderUrl = '${Constants.baseUrl}/collector/fetch-user-debt/$userId?ticket_id=$ticketID&per_page=50&page=1';
-  //   print(oneOrderUrl);
   //   try {
   //     final headers = {'User-Agent': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer $token'};
 
@@ -29,7 +26,6 @@ class GetOneOrderService {
   //         headers: headers,
   //       ),
   //     );
-  //     print(response.data);
   //     if (response.statusCode == 200) {
   //       final List<dynamic> data = response.data['data'];
   //       _clientHomeController.totalDebt.value = response.data['user']['total_debt'].toString();
@@ -81,9 +77,8 @@ class GetOneOrderService {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     final String? token = preferences.getString('token');
     final String oneOrderUrl = '${Constants.baseUrl}/collector/fetch-user-debt/$userId?ticket_id=$ticketID&from_transport_id=$controller&to_transport_id=$controller1&per_page=50&page=1';
-    print(oneOrderUrl);
-    print(token);
     _clientHomeController.loadingOrders.value = 0;
+    print(oneOrderUrl);
     try {
       final headers = {'User-Agent': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer $token'};
 
@@ -94,7 +89,6 @@ class GetOneOrderService {
         ),
       );
 
-      log(response.data.toString());
       if (response.statusCode == 200) {
         final List<dynamic> data = response.data['data'];
         _clientHomeController.totalDebt.value = response.data['user']['total_debt'].toString();
@@ -124,7 +118,6 @@ class GetOneOrderService {
     final String? token = preferences.getString('token');
     final String oneOrderUrl =
         '${Constants.baseUrl}/collector/get-payment-history?date_from=$dateFrom&date_to=$dateTo&ticket_search=$ticket_search&from_transport_id=$from_transport_id&to_transport_id=$to_transport_id&per_page=50&page=1';
-    print(oneOrderUrl);
     try {
       final headers = {'User-Agent': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer $token'};
 
@@ -134,7 +127,6 @@ class GetOneOrderService {
           headers: headers,
         ),
       );
-      print(response.data);
       clientHomeController.paymentHistory.clear();
       if (response.statusCode == 200) {
         clientHomeController.sumPaid.value = response.data['sum_paid'].toString();
@@ -158,7 +150,6 @@ class GetOneOrderService {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     final String? token = preferences.getString('token');
     final String oneOrderUrl = '${Constants.baseUrl}/collector/get-payment-history?date_from=$dateFrom&date_to=$dateTo';
-    print(oneOrderUrl);
     try {
       final headers = {'User-Agent': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer $token'};
 
@@ -168,7 +159,6 @@ class GetOneOrderService {
           headers: headers,
         ),
       );
-      print(response.data);
       clientHomeController.paymentHistory.clear();
       if (response.statusCode == 200) {
         clientHomeController.sumPaid.value = response.data['sum_paid'];
@@ -200,7 +190,6 @@ class GetOneOrderService {
         ),
       );
       clientHomeController.paymentHistory.clear();
-      log(response.data.toString());
       if (response.statusCode == 200) {
         clientHomeController.sumPaid.value = response.data['sum_paid'].toString();
         for (var e in response.data['data'].map((e) => PaymentModel.fromJson(e as Map<String, dynamic>)).toList()) {

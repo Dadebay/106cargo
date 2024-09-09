@@ -118,7 +118,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
         Obx(() {
           if (_clientHomeController.loadingOrders.value == 0) {
             return loading();
-          } else if (_clientHomeController.showOrderIDList.isEmpty && _clientHomeController.loadingOrders.value == 2) {
+          } else if (_clientHomeController.showOrderIDList.isEmpty && _clientHomeController.loadingOrders.value == 2 ||
+              _clientHomeController.showOrderIDList.isEmpty && _clientHomeController.loadingOrders.value == 1) {
             return emptyDataMine();
           } else {
             return ListView.builder(

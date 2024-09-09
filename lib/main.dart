@@ -77,7 +77,8 @@ void main() async {
         child: const GetMaterialApp(
           debugShowCheckedModeBanner: false,
           home: MyApp(),
-          // UpgradeAlert(
+          // MyApp(),
+          //     UpgradeAlert(
           //   barrierDismissible: true,
           //   showIgnore: false,
           //   showLater: false,
@@ -111,6 +112,14 @@ class MyApp extends StatelessWidget {
           routes: {
             '/': (context) => const SpalshScreen(),
             'first': (context) => const LanguageScreen(),
+          },
+          builder: (context, childd) {
+            return MediaQuery(
+              data: MediaQuery.of(context).copyWith(
+                textScaler: const TextScaler.linear(1.0),
+              ), //set desired text scale factor here
+              child: childd!,
+            );
           },
           localizationsDelegates: [
             ...context.localizationDelegates,

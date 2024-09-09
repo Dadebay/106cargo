@@ -20,7 +20,6 @@ import 'package:kargo_app/src/screens/initial/providers/orders_provider.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:upgrader/upgrader.dart';
 
 class InitialScreen extends StatefulWidget {
   const InitialScreen({super.key});
@@ -44,7 +43,6 @@ class _InitialScreenState extends State<InitialScreen> {
   }
 
   dynamic fetchData() async {
-    await Upgrader.clearSavedSettings();
     initialPageController.showOrders.clear();
     initialPageController.page.value = 1;
     initialPageController.loading.value = 0;
